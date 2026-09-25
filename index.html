@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ꜱᴀᴋᴜᴛᴀ ᴍɪɴɪ ʙᴏᴛ — Pairing</title>
+<link rel="icon" type="image/jpeg" href="https://files.catbox.moe/w21xqm.jpg" />
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+    color: #ffe8e8;
+    overflow-x: hidden;
+    background: #000;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ==== BACKGROUND ==== */
+  #starfield {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(ellipse at 50% 50%, #1a0000 0%, #0a0000 45%, #000 100%);
+    overflow: hidden;
+  }
+  #starfield::before,
+  #starfield::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200vmax;
+    height: 200vmax;
+    margin: -100vmax 0 0 -100vmax;
+    background-image:
+      radial-gradient(2.5px 2.5px at 20px 30px, #ff2a2a, transparent),
+      radial-gradient(2px 2px at 120px 80px, #ff5c5c, transparent),
+      radial-gradient(1.5px 1.5px at 200px 150px, #ff8a8a, transparent),
+      radial-gradient(2.5px 2.5px at 300px 60px, #ff1a1a, transparent),
+      radial-gradient(2px 2px at 400px 200px, #ff4d4d, transparent),
+      radial-gradient(1.5px 1.5px at 500px 120px, #ffb3b3, transparent),
+      radial-gradient(2.5px 2.5px at 600px 250px, #ff3333, transparent),
+      radial-gradient(2px 2px at 700px 40px, #ff6b6b, transparent),
+      radial-gradient(1.5px 1.5px at 800px 300px, #ff9999, transparent);
+    background-size: 900px 900px;
+    animation: spin 120s linear infinite;
+    opacity: 0.9;
+  }
+  #starfield::after {
+    background-size: 500px 500px;
+    animation: spin 60s linear infinite reverse;
+    opacity: 0.55;
+    filter: blur(0.8px);
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  #starfield .glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 800px;
+    height: 800px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(220,0,0,0.3), transparent 70%);
+    animation: pulse 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.95; transform: translate(-50%, -50%) scale(1.2); }
+  }
+
+  /* ==== LAYOUT ==== */
+  .wrap {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  /* ==== CARTE ==== */
+  .card {
+    background: rgba(15, 0, 0, 0.82);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 60, 60, 0.35);
+    border-radius: 28px;
+    padding: 60px 55px 50px;
+    width: 100%;
+    max-width: 720px;
+    box-shadow:
+      0 30px 80px rgba(0, 0, 0, 0.7),
+      0 0 80px rgba(255, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      inset 0 0 100px rgba(255, 0, 0, 0.06);
+    animation: cardIn 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 60, 60, 0.8), transparent);
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* ==== BADGE ==== */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.4);
+    color: #34d399;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 100px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin: 0 auto 20px;
+    width: fit-content;
+    box-shadow: 0 0 15px rgba(52, 211, 153, 0.2);
+  }
+  .badge .dot {
+    width: 6px; height: 6px;
+    background: #34d399;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #34d399;
+    animation: blink 2s infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .logo {
+    display: block;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 24px;
+    border: 3px solid rgba(255, 60, 60, 0.9);
+    box-shadow:
+      0 0 40px rgba(255, 60, 60, 0.9),
+      0 0 80px rgba(255, 60, 60, 0.4);
+    animation: floatLogo 4s ease-in-out infinite;
+  }
+  @keyframes floatLogo {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  h1 {
+    font-size: 32px;
+    margin: 0 0 6px;
+    text-align: center;
+    color: #fff;
+    letter-spacing: -0.5px;
+    text-shadow: 0 0 25px rgba(255, 60, 60, 0.8);
+    font-weight: 800;
+  }
+  p.sub {
+    color: #a88888;
+    font-size: 15px;
+    margin: 0 0 36px;
+    text-align: center;
+    letter-spacing: 0.2px;
+  }
+
+  label {
+    display: block;
+    font-size: 14px;
+    margin: 0 0 10px;
+    color: #ffb3b3;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  input {
+    width: 100%;
+    padding: 18px 22px;
+    border-radius: 14px;
+    border: 1.5px solid rgba(255, 60, 60, 0.35);
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    transition: 0.25s;
+    outline: none;
+    letter-spacing: 0.5px;
+  }
+  input:focus {
+    border-color: #ff3c3c;
+    background: rgba(20, 0, 0, 0.8);
+    box-shadow:
+      0 0 0 4px rgba(255, 60, 60, 0.15),
+      0 0 25px rgba(255, 60, 60, 0.5);
+  }
+  input::placeholder {
+    color: #664444;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  /* ==== SERVER TOGGLE ==== */
+  .server-toggle {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .server-toggle button {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(255, 60, 60, 0.35);
+    background: rgba(0, 0, 0, 0.6);
+    color: #ffb3b3;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    transition: 0.25s;
+  }
+  .server-toggle button:hover {
+    border-color: rgba(255, 60, 60, 0.7);
+    background: rgba(30, 0, 0, 0.8);
+  }
+  .server-toggle button.active {
+    background: linear-gradient(135deg, #ff2020 0%, #c40000 50%, #8b0000 100%);
+    color: #fff;
+    border-color: transparent;
+    box-shadow:
+      0 8px 25px rgba(255, 40, 40, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  button.primary {
+    margin-top: 26px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 14px;
+    border: none;
+    background: linear-gradient(135deg, #ff2020 0%, #c40000 50%, #8b0000 100%);
+    color: #fff;
+    font-weight: 800;
+    font-size: 17px;
+    cursor: pointer;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow:
+      0 8px 25px rgba(255, 40, 40, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  button.primary::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    transition: 0.6s;
+  }
+  button.primary:hover:not(:disabled)::before { left: 100%; }
+  button.primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #ff3c3c 0%, #dc0000 50%, #a30000 100%);
+    box-shadow:
+      0 12px 35px rgba(255, 40, 40, 0.8),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+  }
+  button.primary:active:not(:disabled) { transform: translateY(0) scale(0.99); }
+  button.primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(0.3);
+  }
+
+  #result { margin-top: 28px; text-align: center; }
+
+  /* ==== CODE ==== */
+  .code {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: 8px;
+    color: #ff4040;
+    background: linear-gradient(135deg, rgba(60, 0, 0, 0.9), rgba(30, 0, 0, 0.95));
+    border: 1.5px solid rgba(255, 60, 60, 0.7);
+    padding: 24px 20px;
+    border-radius: 16px;
+    text-shadow:
+      0 0 15px rgba(255, 60, 60, 1),
+      0 0 30px rgba(255, 60, 60, 0.6);
+    animation: codePulse 2.5s ease-in-out infinite;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    box-shadow:
+      0 0 30px rgba(255, 60, 60, 0.4),
+      inset 0 0 30px rgba(255, 60, 60, 0.1);
+  }
+  @keyframes codePulse {
+    0%, 100% {
+      box-shadow:
+        0 0 25px rgba(255, 60, 60, 0.5),
+        inset 0 0 25px rgba(255, 60, 60, 0.1);
+    }
+    50% {
+      box-shadow:
+        0 0 55px rgba(255, 60, 60, 1),
+        inset 0 0 40px rgba(255, 60, 60, 0.25);
+    }
+  }
+
+  .instruction {
+    margin-top: 18px;
+    padding: 14px 18px;
+    background: rgba(255, 60, 60, 0.08);
+    border: 1px solid rgba(255, 60, 60, 0.3);
+    border-left: 3px solid #ff3c3c;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #ffd6d6;
+    text-align: left;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .instruction .icon {
+    flex-shrink: 0;
+    font-size: 18px;
+    margin-top: 1px;
+  }
+  .instruction strong { color: #ff5c5c; font-weight: 700; }
+  .instruction .path {
+    display: inline-block;
+    background: rgba(255, 60, 60, 0.18);
+    border: 1px solid rgba(255, 60, 60, 0.45);
+    padding: 1px 7px;
+    border-radius: 5px;
+    font-size: 12.5px;
+    color: #ffb3b3;
+    font-family: ui-monospace, Menlo, monospace;
+    margin: 0 2px;
+  }
+
+  .status { margin-top: 16px; font-size: 14px; color: #a88888; }
+
+  .status.connected {
+    color: #34d399;
+    font-weight: 700;
+    font-size: 16px;
+    text-shadow: 0 0 18px #34d399;
+    padding: 18px;
+    background: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.4);
+    border-radius: 14px;
+    animation: connectedIn 0.5s ease;
+  }
+  @keyframes connectedIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .error {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: 14px;
+    font-weight: 600;
+    padding: 14px;
+    background: rgba(255, 60, 60, 0.1);
+    border: 1px solid rgba(255, 60, 60, 0.4);
+    border-radius: 10px;
+  }
+
+  .code-row {
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .copy-btn {
+    margin-top: 0;
+    padding: 0 24px;
+    font-size: 14px;
+    background: rgba(60, 0, 0, 0.9);
+    color: #ffe8e8;
+    border: 1.5px solid rgba(255, 60, 60, 0.6);
+    border-radius: 14px;
+    cursor: pointer;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    transition: 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+  }
+  .copy-btn:hover {
+    background: rgba(140, 0, 0, 1);
+    box-shadow: 0 0 25px rgba(255, 60, 60, 0.8);
+    transform: translateY(-1px);
+  }
+  .copy-btn.copied {
+    background: #16803c;
+    border-color: #34d399;
+    box-shadow: 0 0 25px rgba(52, 211, 153, 0.8);
+  }
+
+  .spinner {
+    display: none;
+    margin: 20px auto 0;
+    width: 26px;
+    height: 26px;
+    border: 3px solid rgba(255,255,255,0.15);
+    border-top-color: #ff3c3c;
+    border-radius: 50%;
+    animation: spinLoad 0.8s linear infinite;
+  }
+  @keyframes spinLoad { to { transform: rotate(360deg); } }
+
+  .footer {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 60, 60, 0.15);
+    text-align: center;
+    color: #6a4a4a;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+  .footer strong {
+    color: #ff5c5c;
+    font-weight: 700;
+  }
+
+  /* ==== CONTROL BUTTON (single menu button) ==== */
+  .control-buttons {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 10;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .control-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 60, 60, 0.6);
+    background: rgba(20, 0, 0, 0.85);
+    color: #ff5c5c;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 0 20px rgba(255, 60, 60, 0.5);
+    transition: 0.25s;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+  .control-btn:hover {
+    background: rgba(60, 0, 0, 0.95);
+    box-shadow: 0 0 35px rgba(255, 60, 60, 1);
+    transform: scale(1.08);
+  }
+
+  /* ==== MODALS ==== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(0,0,0,0.78);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: rgba(15, 0, 0, 0.96);
+    border: 1px solid rgba(255, 60, 60, 0.4);
+    border-radius: 20px;
+    padding: 32px 28px 28px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 0 60px rgba(255, 0, 0, 0.3);
+    animation: modalIn 0.3s ease;
+    position: relative;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* SAKUTA-style header */
+  .modal-header {
+    text-align: center;
+    margin-bottom: 22px;
+    position: relative;
+  }
+  .modal-header .header-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 60, 60, 0.8);
+    box-shadow: 0 0 25px rgba(255, 60, 60, 0.7);
+    margin: 0 auto 12px;
+    display: block;
+  }
+  .modal-header h2 {
+    color: #fff;
+    font-size: 19px;
+    margin: 0 0 4px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 20px rgba(255, 60, 60, 0.7);
+  }
+  .modal-header .subtitle {
+    color: #a88888;
+    font-size: 12.5px;
+    margin: 0;
+    letter-spacing: 0.3px;
+  }
+  .modal-close {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 60, 60, 0.5);
+    background: rgba(20, 0, 0, 0.95);
+    color: #ffb3b3;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
+    box-shadow: 0 0 15px rgba(255, 60, 60, 0.5);
+  }
+  .modal-close:hover {
+    background: rgba(140, 0, 0, 1);
+    color: #fff;
+    box-shadow: 0 0 25px rgba(255, 60, 60, 0.9);
+    transform: rotate(90deg);
+  }
+
+  /* SAKUTA-style menu cards */
+  .menu-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 15px 16px;
+    background: linear-gradient(135deg, rgba(60, 0, 0, 0.55), rgba(20, 0, 0, 0.7));
+    border: 1px solid rgba(255, 60, 60, 0.35);
+    border-radius: 14px;
+    margin-bottom: 11px;
+    text-decoration: none;
+    color: #ffe8e8;
+    transition: 0.25s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .menu-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 60, 60, 0.15), transparent);
+    transition: 0.5s;
+  }
+  .menu-card:hover::before { left: 100%; }
+  .menu-card:hover {
+    border-color: rgba(255, 60, 60, 0.75);
+    background: linear-gradient(135deg, rgba(100, 0, 0, 0.7), rgba(40, 0, 0, 0.85));
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 60, 60, 0.35);
+  }
+  .menu-card .mc-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ff2020 0%, #8b0000 100%);
+    color: #fff;
+    font-size: 20px;
+    box-shadow:
+      0 0 18px rgba(255, 60, 60, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  .menu-card .mc-text { flex: 1; text-align: left; }
+  .menu-card .mc-title {
+    font-weight: 800;
+    font-size: 15px;
+    color: #fff;
+    margin-bottom: 2px;
+    letter-spacing: 0.4px;
+  }
+  .menu-card .mc-desc {
+    font-size: 12px;
+    color: #b88888;
+  }
+  .menu-card .mc-arrow {
+    color: #ff5c5c;
+    font-size: 18px;
+    font-weight: 700;
+    transition: 0.25s;
+    flex-shrink: 0;
+  }
+  .menu-card:hover .mc-arrow { transform: translateX(4px); }
+
+  /* SAKUTA-style owner card (different from others) */
+  .menu-card.owner-card {
+    background: linear-gradient(135deg, rgba(80, 60, 0, 0.4), rgba(40, 20, 0, 0.7));
+    border-color: rgba(255, 200, 60, 0.4);
+  }
+  .menu-card.owner-card:hover {
+    border-color: rgba(255, 220, 80, 0.8);
+    background: linear-gradient(135deg, rgba(120, 90, 0, 0.55), rgba(60, 30, 0, 0.85));
+    box-shadow: 0 10px 30px rgba(255, 200, 60, 0.35);
+  }
+  .menu-card.owner-card .mc-icon {
+    background: linear-gradient(135deg, #ffc93c 0%, #c98800 100%);
+    box-shadow:
+      0 0 18px rgba(255, 200, 60, 0.7),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    color: #3a2000;
+  }
+  .menu-card.owner-card .mc-title { color: #ffe8a0; }
+  .menu-card.owner-card .mc-desc { color: #c9a86a; }
+  .menu-card.owner-card .mc-arrow { color: #ffc93c; }
+
+  /* Sound test button */
+  .sound-test-btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 4px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(255, 60, 60, 0.4);
+    background: rgba(60, 0, 0, 0.5);
+    color: #ffb3b3;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    transition: 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .sound-test-btn:hover {
+    background: rgba(120, 0, 0, 0.7);
+    color: #fff;
+    border-color: rgba(255, 60, 60, 0.8);
+    box-shadow: 0 0 20px rgba(255, 60, 60, 0.5);
+  }
+
+  /* Modal footer help box */
+  .menu-help {
+    margin-top: 20px;
+    padding: 13px 15px;
+    background: rgba(255, 60, 60, 0.06);
+    border: 1px solid rgba(255, 60, 60, 0.22);
+    border-radius: 12px;
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: #ffd6d6;
+    text-align: left;
+  }
+  .menu-help strong { color: #ff5c5c; }
+  .menu-help .arrow { color: #ff5c5c; font-weight: 700; }
+
+  /* Owner modal internals */
+  .modal h2 {
+    color: #fff;
+    font-size: 20px;
+    margin: 0 0 18px;
+    text-align: center;
+  }
+  .modal input { margin-bottom: 14px; }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .modal-actions button {
+    flex: 1;
+    padding: 13px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(255, 60, 60, 0.4);
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .modal-actions .cancel {
+    background: transparent;
+    color: #ffb3b3;
+  }
+  .modal-actions .confirm {
+    background: linear-gradient(135deg, #ff2020 0%, #c40000 50%, #8b0000 100%);
+    color: #fff;
+    border-color: transparent;
+  }
+
+  .sessions-box { margin-top: 6px; text-align: center; }
+  .sessions-total {
+    font-size: 44px;
+    font-weight: 800;
+    color: #ff4040;
+    text-shadow: 0 0 20px rgba(255, 60, 60, 0.8);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  .sessions-label {
+    color: #a88888;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .sessions-list {
+    margin-top: 18px;
+    max-height: 180px;
+    overflow-y: auto;
+    text-align: left;
+    font-size: 13px;
+    color: #ffd6d6;
+    font-family: ui-monospace, Menlo, monospace;
+    background: rgba(255,60,60,0.06);
+    border: 1px solid rgba(255,60,60,0.25);
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .sessions-list div { padding: 3px 0; }
+
+  /* ==== RESPONSIVE ==== */
+  @media (max-width: 600px) {
+    .card { padding: 40px 26px 34px; border-radius: 22px; }
+    h1 { font-size: 26px; }
+    p.sub { font-size: 14px; margin-bottom: 28px; }
+    label { font-size: 13px; }
+    input { padding: 16px 18px; font-size: 16px; }
+    button.primary { padding: 18px; font-size: 16px; }
+    .code { font-size: 30px; letter-spacing: 5px; padding: 18px 14px; }
+    .logo { width: 90px; height: 90px; }
+    .control-buttons { top: 16px; right: 16px; gap: 8px; }
+    .control-btn { width: 48px; height: 48px; font-size: 18px; }
+    .instruction { font-size: 13px; padding: 12px 14px; }
+    .copy-btn { padding: 0 18px; font-size: 13px; min-height: 54px; }
+    .server-toggle button { padding: 12px 8px; font-size: 12px; }
+    .modal { padding: 26px 20px 22px; }
+    .menu-card { padding: 13px 14px; }
+    .menu-card .mc-icon { width: 40px; height: 40px; font-size: 18px; }
+  }
+</style>
+</head>
+
+<body>
+<div id="starfield">
+  <div class="glow"></div>
+</div>
+
+<audio id="bgAudio" loop preload="auto">
+  <source src="https://files.catbox.moe/5bzill.mp3" type="audio/mpeg" />
+</audio>
+
+<!-- Single Menu button (top right) -->
+<div class="control-buttons">
+  <button class="control-btn" id="menuBtn" onclick="openMenuModal()" title="Menu">☰</button>
+</div>
+
+<!-- ===== MENU MODAL (SAKUTA style) ===== -->
+<div class="modal-overlay" id="menuOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeMenuModal()">×</button>
+
+    <div class="modal-header">
+      <img class="header-logo" src="https://files.catbox.moe/tlybid.jpg" alt="SAKUTA" />
+      <h2>SAKUTA MINI BOT/menu</h2>
+      <p class="subtitle">Official channels and quick instructions.</p>
+    </div>
+
+    <!-- Telegram -->
+    <a class="menu-card" href="https://t.me/Dev_X_lab" target="_blank" rel="noopener">
+      <span class="mc-icon">✈</span>
+      <span class="mc-text">
+        <span class="mc-title">Telegram</span>
+        <span class="mc-desc">Join the developer channel</span>
+      </span>
+      <span class="mc-arrow">›</span>
+    </a>
+
+    <!-- WhatsApp Channel -->
+    <a class="menu-card" href="https://whatsapp.com/channel/0029VbCdBgw17EmtjDmLxU3V" target="_blank" rel="noopener">
+      <span class="mc-icon">◉</span>
+      <span class="mc-text">
+        <span class="mc-title">WhatsApp Channel</span>
+        <span class="mc-desc">Follow official updates</span>
+      </span>
+      <span class="mc-arrow">›</span>
+    </a>
+
+    <!-- OWNER PANEL (inside menu, styled differently) -->
+    <div class="menu-card owner-card" onclick="openOwnerModal()">
+      <span class="mc-icon">👑</span>
+      <span class="mc-text">
+        <span class="mc-title">Owner Panel</span>
+        <span class="mc-desc">View active sessions &amp; stats</span>
+      </span>
+      <span class="mc-arrow">›</span>
+    </div>
+
+    <!-- Sound test -->
+    <button class="sound-test-btn" onclick="testPairingSound()">
+      🔊 Test pairing sound
+    </button>
+
+    <div class="menu-help">
+      <strong>How to link:</strong><br />
+      Generate the code above, then open WhatsApp <span class="arrow">→</span>
+      Linked devices <span class="arrow">→</span> Link a device
+      <span class="arrow">→</span> Link with phone number.
+    </div>
+  </div>
+</div>
+
+<!-- ===== OWNER MODAL ===== -->
+<div class="modal-overlay" id="ownerOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeOwnerModal()">×</button>
+    <h2 id="ownerModalTitle">Owner Panel</h2>
+    <div id="ownerModalBody">
+      <label for="ownerPassword">Owner password</label>
+      <input id="ownerPassword" type="password" placeholder="••••••••" autocomplete="off" />
+      <div class="modal-actions">
+        <button class="cancel" onclick="closeOwnerModal()">Cancel</button>
+        <button class="confirm" onclick="checkSessions()">Unlock</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="card">
+
+    <div class="badge">
+      <span class="dot"></span>
+      Secure Pairing
+    </div>
+
+    <img class="logo" src="https://files.catbox.moe/tlybid.jpg" alt="Bot Logo" />
+    <h1>ꜱᴀᴋᴜᴛᴀ ᴍɪɴɪ ʙᴏᴛ</h1>
+    <p class="sub">Connect your WhatsApp account in seconds</p>
+
+    <label>Choose server</label>
+    <div class="server-toggle">
+      <button type="button" class="server-btn active" data-server="1">Server 1</button>
+      <button type="button" class="server-btn" data-server="2">Server 2</button>
+    </div>
+
+    <label for="phoneNumber">WhatsApp Number with country code, without +</label>
+    <input id="phoneNumber" placeholder="e.g. 50912345678" autocomplete="tel" />
+
+    <button class="primary" id="pairBtn" onclick="startPairing()">Get Pairing Code</button>
+
+    <div class="spinner" id="spinner"></div>
+
+    <div id="result"></div>
+
+    <div class="footer">
+      Powered by <strong>SAKUTA TECH</strong>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let currentPhoneNumber = null;
+let selectedServer = '1';
+
+// ===============================
+// SERVER TOGGLE
+// ===============================
+const serverBtns = document.querySelectorAll('.server-btn');
+serverBtns.forEach(b => {
+  b.addEventListener('click', () => {
+    serverBtns.forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    selectedServer = b.dataset.server;
+  });
+});
+
+// ===============================
+// AUDIO — AUTO-PLAY ON FIRST CLICK
+// ===============================
+const audio = document.getElementById('bgAudio');
+let audioStarted = false;
+
+function tryStartAudio() {
+  if (audioStarted) return;
+  audio.volume = 0.5;
+  audio.play().then(() => {
+    audioStarted = true;
+  }).catch(() => {});
+}
+
+['click', 'touchstart', 'keydown'].forEach(evt => {
+  window.addEventListener(evt, tryStartAudio, { once: true, passive: true });
+});
+
+// ===============================
+// MENU MODAL
+// ===============================
+function openMenuModal() {
+  document.getElementById('menuOverlay').classList.add('open');
+}
+function closeMenuModal() {
+  document.getElementById('menuOverlay').classList.remove('open');
+}
+
+// Test pairing sound
+function testPairingSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const now = ctx.currentTime;
+
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(880, now);
+    gain1.gain.setValueAtTime(0.0001, now);
+    gain1.gain.exponentialRampToValueAtTime(0.3, now + 0.02);
+    gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.25);
+    osc1.connect(gain1).connect(ctx.destination);
+    osc1.start(now);
+    osc1.stop(now + 0.3);
+
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(1320, now + 0.18);
+    gain2.gain.setValueAtTime(0.0001, now + 0.18);
+    gain2.gain.exponentialRampToValueAtTime(0.3, now + 0.2);
+    gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+    osc2.connect(gain2).connect(ctx.destination);
+    osc2.start(now + 0.18);
+    osc2.stop(now + 0.55);
+
+    setTimeout(() => ctx.close(), 1000);
+  } catch (e) {
+    console.warn('Audio test not supported:', e);
+  }
+}
+
+// ===============================
+// OWNER PANEL
+// ===============================
+function openOwnerModal() {
+  closeMenuModal();
+  document.getElementById('ownerOverlay').classList.add('open');
+  document.getElementById('ownerModalTitle').textContent = 'Owner Panel';
+  document.getElementById('ownerModalBody').innerHTML =
+    '<label for="ownerPassword">Owner password</label>' +
+    '<input id="ownerPassword" type="password" placeholder="••••••••" autocomplete="off" />' +
+    '<div class="modal-actions">' +
+      '<button class="cancel" onclick="closeOwnerModal()">Cancel</button>' +
+      '<button class="confirm" onclick="checkSessions()">Unlock</button>' +
+    '</div>';
+  setTimeout(() => document.getElementById('ownerPassword')?.focus(), 50);
+}
+
+function closeOwnerModal() {
+  document.getElementById('ownerOverlay').classList.remove('open');
+}
+
+async function checkSessions() {
+  const pwInput = document.getElementById('ownerPassword');
+  const password = pwInput ? pwInput.value : '';
+  const body = document.getElementById('ownerModalBody');
+
+  body.innerHTML = '<div class="status">Checking...</div>';
+
+  try {
+    const res = await fetch(`/api/sessions?server=${selectedServer}`, {
+      headers: { 'x-owner-password': password }
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      body.innerHTML =
+        '<div class="error">' + (data.error || 'Wrong password.') + '</div>' +
+        '<div class="modal-actions">' +
+          '<button class="cancel" onclick="closeOwnerModal()">Close</button>' +
+          '<button class="confirm" onclick="openOwnerModal()">Retry</button>' +
+        '</div>';
+      return;
+    }
+
+    const list = (data.sessions || []).map(s => '<div>📱 ' + s + '</div>').join('') || '<div>—</div>';
+
+    body.innerHTML =
+      '<div class="sessions-box">' +
+        '<div class="sessions-total">' + data.total + '</div>' +
+        '<div class="sessions-label">Active sessions — Server ' + selectedServer + '</div>' +
+        '<div class="sessions-list">' + list + '</div>' +
+      '</div>' +
+      '<div class="modal-actions">' +
+        '<button class="cancel" onclick="closeOwnerModal()">Close</button>' +
+        '<button class="confirm" onclick="checkSessions()">Refresh</button>' +
+      '</div>';
+  } catch (err) {
+    body.innerHTML = '<div class="error">Unable to reach the server.</div>';
+  }
+}
+
+// ===============================
+// HELPERS
+// ===============================
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function pollStatus(phone, server, tries = 20) {
+  for (let i = 0; i < tries; i++) {
+    await sleep(1500);
+    const res = await fetch(`/api/status?phoneNumber=${encodeURIComponent(phone)}&server=${server}`);
+    const data = await res.json();
+    if (data?.code) return data.code;
+    if (data?.connected) return null;
+  }
+  throw new Error('Timeout waiting for the code. Try again.');
+}
+
+// ===============================
+// PAIRING
+// ===============================
+async function startPairing() {
+  const phoneNumber = document.getElementById('phoneNumber').value.trim();
+  const result = document.getElementById('result');
+  const pairBtn = document.getElementById('pairBtn');
+  const spinner = document.getElementById('spinner');
+
+  result.innerHTML = '';
+
+  if (!/^\d{7,15}$/.test(phoneNumber)) {
+    result.innerHTML = '<div class="error">Enter a valid number, no + or spaces.</div>';
+    return;
+  }
+
+  pairBtn.disabled = true;
+  pairBtn.textContent = 'Starting...';
+  spinner.style.display = 'block';
+
+  try {
+    const res = await fetch('/api/pair', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phoneNumber, server: selectedServer })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      result.innerHTML = '<div class="error">' + (data.error || 'Pairing failed.') + '</div>';
+      return;
+    }
+
+    currentPhoneNumber = phoneNumber;
+    result.innerHTML = '<div class="status">Generating your pairing code...</div>';
+
+    const code = await pollStatus(phoneNumber, selectedServer);
+    if (!code) {
+      result.innerHTML = '<div class="error">No code returned. Number may already be linked.</div>';
+      return;
+    }
+
+    result.innerHTML =
+      '<div class="code-row">' +
+        '<div class="code" id="pairCode">' + code + '</div>' +
+        '<button class="copy-btn" id="copyBtn" onclick="copyCode()">Copy</button>' +
+      '</div>' +
+      '<div class="instruction">' +
+        '<span class="icon">📱</span>' +
+        '<div>Open WhatsApp → <span class="path">Settings</span> → ' +
+        '<span class="path">Linked Devices</span> → <strong>Link with phone number</strong>, ' +
+        'then enter the code above.</div>' +
+      '</div>';
+
+    testPairingSound();
+
+  } catch (err) {
+    result.innerHTML = '<div class="error">' + (err.message || 'Unable to connect to the server.') + '</div>';
+  } finally {
+    pairBtn.disabled = false;
+    pairBtn.textContent = 'Get Pairing Code';
+    spinner.style.display = 'none';
+  }
+}
+
+// ===============================
+// COPY PAIRING CODE
+// ===============================
+function copyCode() {
+  const codeEl = document.getElementById('pairCode');
+  const btn = document.getElementById('copyBtn');
+  if (!codeEl || !btn) return;
+
+  const text = codeEl.textContent.trim();
+
+  const done = () => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 1500);
+  };
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else {
+    fallbackCopy(text, done);
+  }
+}
+
+function fallbackCopy(text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    done();
+  } catch (err) {
+    console.error('Copy failed:', err);
+  }
+  document.body.removeChild(ta);
+}
+
+// Close modals when clicking outside
+document.getElementById('menuOverlay').addEventListener('click', (e) => {
+  if (e.target.id === 'menuOverlay') closeMenuModal();
+});
+document.getElementById('ownerOverlay').addEventListener('click', (e) => {
+  if (e.target.id === 'ownerOverlay') closeOwnerModal();
+});
+</script>
+</body>
+</html>
