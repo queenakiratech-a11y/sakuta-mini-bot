@@ -8,8 +8,8 @@
 //   SERVER2_URL = http://IP_2:PORT_2
 
 const SERVERS = {
-  1: process.env.SERVER1_URL || 'http://209.38.42.10:19197',
-  2: process.env.SERVER2_URL || 'http://209.38.42.10:19198',
+  1: process.env.SERVER1_URL || 'http://dobertonode.duckdns.org:3022/',
+  2: process.env.SERVER2_URL || 'https://dobertonode.duckdns.org:3002/',
 };
 
 module.exports = async (req, res) => {
