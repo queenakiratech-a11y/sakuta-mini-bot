@@ -3,7 +3,7 @@
 
 const SERVERS = {
   1: process.env.SERVER1_URL || 'http://dobertonode.duckdns.org:3022',
-  2: process.env.SERVER2_URL || 'https://dobertonode.duckdns.org:3002',
+  2: process.env.SERVER2_URL || 'http://dobertonode.duckdns.org:3002',
 };
 
 module.exports = async (req, res) => {
